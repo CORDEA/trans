@@ -69,6 +69,7 @@ when isMainModule:
     text: string
     frm: string
     to: string
+    retrans: bool
 
   for kind, key, val in getopt():
     case kind
@@ -80,6 +81,8 @@ when isMainModule:
         frm = val
       of "t", "to":
         to = val
+      of "r", "retrans":
+        retrans = true
       of "v", "version":
         echo getVersion()
       of "help":
@@ -96,6 +99,9 @@ when isMainModule:
       to = "en"
     let
       key = getApiKey()
+    var
       resp = trans(key, text, frm, to)
-      r = getResult resp
-    echo r
+    echo getResult resp
+    if retrans:
+      resp = trans(key, text, to, frm)
+      echo getResult resp
