@@ -17,7 +17,7 @@
 import os
 import json
 import httpclient, cgi
-import strutils, parseopt2
+import strutils, parseopt
 
 const version = "0.1"
 
@@ -45,7 +45,7 @@ proc getErrorText(json: JsonNode): string =
   let
     err = json["error"]
     msg = err["message"].str
-    code = err["code"].getNum
+    code = err["code"].getInt
   return "$#: $#" % [ $code, msg ]
 
 proc getResult(response: Response): string =
@@ -90,12 +90,12 @@ when isMainModule:
       else: discard
     else: discard
 
-  if text == nil:
+  if text == "":
     quit 1
   else:
-    if frm == nil:
+    if frm == "":
       frm = "ja"
-    if to == nil:
+    if to == "":
       to = "en"
     let
       key = getApiKey()
